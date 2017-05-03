@@ -2,8 +2,6 @@
   "version": "1.0.0",
   "private": true,
   "dependencies": {
-    "axios": "^0.16.1",
-    "gsap": "^1.19.1",
     "lodash": "^4.17.4",
     "nuxt": "^0.10.6",
     "nuxt-class-component": "^1.0.1",

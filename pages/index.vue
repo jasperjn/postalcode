@@ -10,7 +10,6 @@
 <script lang="ts">
 import Vue from "vue";
 import Component from "nuxt-class-component"
-import axios from "~plugins/axios"
 
 import AddressInput from "./../components/AddressInput.vue";
 import AddressTable from './../components/AddressTable.vue';
