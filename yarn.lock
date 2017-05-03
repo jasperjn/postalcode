@@ -2,6 +2,14 @@
 # yarn lockfile v1
 
 
+"@types/googlemaps@^3.26.10":
+  version "3.26.10"
+  resolved "https://registry.yarnpkg.com/@types/googlemaps/-/googlemaps-3.26.10.tgz#839c3fff2a0af08691750a0008897a592b1dee92"
+
+"@types/lodash@^4.14.63":
+  version "4.14.63"
+  resolved "https://registry.yarnpkg.com/@types/lodash/-/lodash-4.14.63.tgz#5ac475f55bfdc62bc88c4239dbc482f2f3bead93"
+
 abbrev@1:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/abbrev/-/abbrev-1.1.0.tgz#d0554c2256636e2f56e7c2e5ad183f859428d81f"
@@ -4126,10 +4134,6 @@ table@^3.7.8:
     lodash "^4.0.0"
     slice-ansi "0.0.4"
     string-width "^2.0.0"
-
-tachyons@^4.7.0:
-  version "4.7.1"
-  resolved "https://registry.yarnpkg.com/tachyons/-/tachyons-4.7.1.tgz#2ca7295f3eb081470e54d23ef94fffe4322153b4"
 
 tapable@^0.2.5, tapable@~0.2.5:
   version "0.2.6"

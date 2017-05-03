@@ -1,9 +1,10 @@
 export const state = {
-  selected: 1
-}
+    selected: 1,
+    postalCodes: []
+};
 
 export const mutations = {
-  select(state, id) {
-    state.selected = id
-  }
-}
+    setPostalCodes(state, postalCodes) {
+        state.postalCodes = postalCodes;
+    }
+};
