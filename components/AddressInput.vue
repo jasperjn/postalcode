@@ -1,10 +1,16 @@
 <template>
-<input class="form-control"
-    placeholder="郵寄地址"
-    ref="autocomplete"
-    v-model="searchText"
-    @input="searchTextChanged"
-    @focus.once="geolocate" />
+<div class="form-group">
+    <input class="form-control"
+        id="searchText"
+        placeholder=""
+        required
+        ref="autocomplete"
+        v-model="searchText"
+        @input="searchTextChanged"
+        @focus.once="geolocate" />
+    <label for="searchText">地址</label>
+    <a class="geolocation" href="#" @click.prevent="useGeolocation">使用目前位置</a>
+</div>
 </template>
 
 <script lang="ts">
@@ -25,9 +31,6 @@ var addressComponentMap: Place = {
 };
 
 @Component({
-    // beforeCreate() {
-    //     localStorage.clear();
-    // }
 })
 export default class AddressInput extends Vue {
     $refs: {
@@ -46,51 +49,56 @@ export default class AddressInput extends Vue {
             return;
         }
         this.autocompleteService = new google.maps.places.AutocompleteService();
-        // this.autocompleteService.getPlacePredictions({}, null)
         this.autocompleteService.getPlacePredictions({
             input: this.searchText,
             componentRestrictions: {
                 country: 'tw'
             }
-        }, (predictions,
-        status) => {
+        }, (predictions, status) => {
             if (status !== google.maps.places.PlacesServiceStatus.OK) {
                 alert(status);
                 return;
             }
             var geocoder = new google.maps.Geocoder();
 
-            geocoder.geocode({ 'placeId': predictions[0].place_id },  (results, status) => {
-                if (status === google.maps.GeocoderStatus.OK) {
-                    if (results[0]) {
-                        this.fillInAddress(results[0].address_components);
-                    } else {
-                        window.alert('No results found');
-                    }
-                } else {
-                    window.alert('Geocoder failed due to: ' + status);
-                }
-            });
-
-            // this.placeService = new google.maps.places.PlacesService();
+            geocoder.geocode({
+                'placeId': predictions[0].place_id
+            }, this.geocoderHandler);
         });
     }
     geolocate() {
         this.initAutocomplete();
-        // if (navigator.geolocation) {
-        //     navigator.geolocation.getCurrentPosition(position => {
-        //         let geolocation = {
-        //             lat: position.coords.latitude,
-        //             lng: position.coords.longitude
-        //         };
-        //         var geocoder = new google.maps.Geocoder();
-        //         geocoder.geocode({ location: geolocation }, (result, status) => {
-
-        //         });
-
-        //     }, err => {
-        //     });
-        // }
+    }
+    useGeolocation(){
+        navigator.geolocation.getCurrentPosition(position => {
+            let geolocation = {
+                lat: position.coords.latitude,
+                lng: position.coords.longitude,
+            }
+            let geocoder = new google.maps.Geocoder();
+            geocoder.geocode({
+                location: geolocation
+            }, this.geocoderHandler);
+        }, err => {
+            if (err.code === err.PERMISSION_DENIED) {
+                alert('請允許取得目前位置。');
+            } else if (err.code === err.POSITION_UNAVAILABLE) {
+                alert('無法取得目前位置。')
+            } else {
+                alert('無法取得目前位置。')
+            }
+        });
+    }
+    geocoderHandler(results: google.maps.GeocoderResult[], status: google.maps.GeocoderStatus) {
+        if (status === google.maps.GeocoderStatus.OK) {
+            if (results[0]) {
+                this.fillInAddress(results[0].address_components);
+            } else {
+                alert('無法解析位置');
+            }
+        } else {
+            alert('無法解析位置');
+        }
     }
     initAutocomplete() {
         this.autocomplete = new google.maps.places.Autocomplete(
@@ -152,3 +160,43 @@ export default class AddressInput extends Vue {
 }
 </script>
 
+<style scoped>
+.form-group {
+    --input-border-color: #757575;
+    --input-placeholder-color: #999;
+    --input-label-color: #5264AE;
+    position: relative;
+    text-align: center;
+}
+input {
+    width: 100%;
+    font-size: 18px;
+    padding: 10px 10px 10px 5px;
+    display: block;
+    border: none;
+    border-bottom: 1px solid var(--input-border-color);
+}
+input:focus {
+    outline: none;
+    border-bottom: 2px solid var(--input-label-color);
+}
+label {
+    color: var(--input-placeholder-color);
+    position: absolute;
+    left: 5px;
+    top: 10px;
+    font-size: 18px;
+    transition: all 0.2s;
+    pointer-events: none;
+}
+input:focus ~ label,
+input:valid ~ label {
+    top: -20px;
+    font-size: 14px;
+    color: var(--input-label-color);
+}
+.geolocation {
+    font-size: 13px;
+    text-decoration: none;
+}
+</style>
