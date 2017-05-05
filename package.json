@@ -11,7 +11,8 @@
     "dev": "nuxt",
     "build": "nuxt build",
     "start": "nuxt start",
-    "generate": "nuxt generate"
+    "generate": "nuxt generate",
+    "deploy": "gh-pages -d dist"
   },
   "devDependencies": {
     "@types/googlemaps": "^3.26.10",
@@ -23,6 +24,7 @@
     "eslint-plugin-html": "^2.0.0",
     "eslint-plugin-promise": "^3.4.1",
     "eslint-plugin-standard": "^2.0.1",
+    "gh-pages": "^0.12.0",
     "ts-loader": "^2.0.3",
     "typescript": "^2.2.2"
   }
