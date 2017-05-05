@@ -37,7 +37,6 @@ module.exports = {
      */
     css: ['~assets/css/main.css'],
     build: {
-        vendor: ['axios', 'gsap'],
         extend(config) {
             for (rule of config.module.rules) {
                 if (rule.loader === 'vue-loader') {
